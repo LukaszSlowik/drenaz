@@ -54,9 +54,7 @@ const Counter = (props: Props) => {
         <p className="text-4xl text-center">
           <span className="font-semibold ">Seria:</span> <span>{serie}</span>
         </p>
-        <p className="text-3xl text-center">
-          <span className="font-semibold ">Ćwiczenie:</span> {typeOfExcercise}
-        </p>
+        <p className="text-3xl text-center">{typeOfExcercise}</p>
       </div>
       <div className="flex   flex-1 w-full h-full relative">
         <button
@@ -72,8 +70,9 @@ const Counter = (props: Props) => {
             <span className="text-4xl text-center">Koniec {`:)`}</span>
           ) : (
             <span
-              className={cn()
-              // rotate === 1 && "animate-[rotate-360_1s_ease-in-out]"
+              className={
+                cn()
+                // rotate === 1 && "animate-[rotate-360_1s_ease-in-out]"
               }
             >
               {" "}
