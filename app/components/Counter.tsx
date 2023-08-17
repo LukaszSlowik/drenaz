@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {};
 
@@ -16,6 +16,7 @@ const Counter = (props: Props) => {
 
   console.log(typeOfExcercise);
   const [disabled, setDisabled] = React.useState(false);
+
   const handleCounterClick = () => {
     let newCount = count === 1 ? 10 : count - 1;
     if (count === 1) {
@@ -41,7 +42,7 @@ const Counter = (props: Props) => {
     setDisabled(true);
     setTimeout(() => {
       setDisabled(false);
-    }, 100);
+    }, 3000);
     setCount(newCount);
   };
   return (
@@ -58,7 +59,7 @@ const Counter = (props: Props) => {
         <button
           onClick={handleCounterClick}
           disabled={disabled}
-          className="rounded-[50%] bg-green-500 aspect-square w-2/4 sm:w-72  absolute top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-white text-8xl flex items-center justify-center"
+          className="rounded-[50%] bg-green-500 aspect-square w-2/4 sm:w-72  absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-white text-8xl flex items-center justify-center"
         >
           {endOfSeries ? (
             <span className="text-4xl text-center">Koniec {`:)`}</span>
@@ -67,6 +68,7 @@ const Counter = (props: Props) => {
           )}
         </button>
       </div>
+
       {/* <div className="text-4xl pb-20"> czas</div> */}
     </div>
   );
