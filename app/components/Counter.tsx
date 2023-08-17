@@ -18,22 +18,17 @@ const Counter = (props: Props) => {
   //const [count, setCount] = React.useState(3);
   const [count, setCount] = useLocalStorage("count", 10);
 
-  const [typeOfExcercise, setTypeOfExcercise] = React.useState<string>(
+  const [typeOfExcercise, setTypeOfExcercise] = useLocalStorage(
+    "typeOfExcercise",
     typeOfExcercises[indexOfExcercise]
   );
   const [serie, setSerie] = useLocalStorage("serie", series[0]);
   const [endOfSeries, setEndOfSeries] = useLocalStorage("endOfSeries", false);
   const [reset, setReset] = useState(false);
-  const [timer, setTimer] = useLocalStorage("timer", initialDate);
+  const [timer, setTimer] = useState(initialDate);
   const [open, setOpen] = useState(false);
   console.log("End of series", endOfSeries);
   //   const [rotate, setRotate] = React.useState(0);
-
-  if (serie === 3 && indexOfExcercise === 2 && count === 0) {
-    setCount(10);
-    setTypeOfExcercise(typeOfExcercises[0]);
-    setSerie(1);
-  }
 
   console.log(typeOfExcercise);
   const [disabled, setDisabled] = React.useState(false);
@@ -42,6 +37,17 @@ const Counter = (props: Props) => {
   }, []);
 
   useEffect(() => {
+    //only after first render
+    if (serie === 3 && indexOfExcercise === 2 && count === 0) {
+      setCount(10);
+      setTypeOfExcercise(typeOfExcercises[0]);
+      setSerie(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    console.log("reset", endOfSeries);
     if (endOfSeries === true || reset === true) {
       setCount(10);
       setTypeOfExcercise(typeOfExcercises[0]);
@@ -61,11 +67,14 @@ const Counter = (props: Props) => {
 
   const handleCounterClick = () => {
     //setRotate(1);
+    console.log("indexOfExcercise", indexOfExcercise);
     let newCount = count === 1 ? 10 : count - 1;
     if (count === 1) {
-      if (serie === 3 && indexOfExcercise === 2) {
+      if (serie === 3 && typeOfExcercise === "Aerobika") {
         setEndOfSeries(true);
         return;
+      } else {
+        //setSerie((prev) => prev + 1);
       }
 
       setTypeOfExcercise(typeOfExcercises[indexOfExcercise + 1]);
@@ -107,7 +116,7 @@ const Counter = (props: Props) => {
       </div>
       <div className="fixed bottom-10 right-5 z-40">
         <MyTimer
-          //key={String(reset)}
+          key={String(reset)}
           expiryTimestamp={timer}
           pauseFromParent={endOfSeries}
         />
