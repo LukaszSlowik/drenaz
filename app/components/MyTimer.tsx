@@ -33,8 +33,7 @@ const MyTimer = ({ expiryTimestamp, pauseFromParent }: Props) => {
   return (
     <div className="w-32 text-lg">
       <div>
-        {/* <span>{days}</span>:<span>{hours}</span>: */}
-        <p> Pozostało: </p>
+        <span>{days}</span>:<span>{hours}</span>:<p> Pozostało: </p>
         <p className="relative">
           <span className="font-semibold">{minutes}</span>
           <span className="absolute top-0 left-6">minut</span>{" "}
