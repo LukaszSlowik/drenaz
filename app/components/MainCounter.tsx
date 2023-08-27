@@ -8,7 +8,7 @@ import { RotateCcw } from "lucide-react";
 type Props = {};
 const NUMBEROFREPETITION = 10;
 // const repetitions = Array.from(Array(NUMBEROFREPETITION + 1).keys()).slice(1);
-const TIMER_DURATION = 3000; //20 * 60 * 1000; // 20 minutes in milliseconds
+const TIMER_DURATION = 20 * 60 * 1000; // 20 minutes in milliseconds
 // const DISABLED_TIME = 2000;
 
 const MainCounter = (props: Props) => {
