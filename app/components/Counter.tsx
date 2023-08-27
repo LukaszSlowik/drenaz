@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 
 //console.log(repetitions);
 
@@ -18,13 +18,62 @@ const seriesList = [1, 2, 3];
 const Counter = ({ children, timerZero }: Props) => {
   const [mounted, setMounted] = useState(false);
 
-  const [count, setCount] = React.useState(0);
-  const [countdown, setCountdown] = React.useState(NUMBEROFREPETITION);
-  const [exerciseIndex, setExerciseIndex] = React.useState(0);
+  // const [count, setCount] = React.useState(0);
+  // const [countdown, setCountdown] = React.useState(NUMBEROFREPETITION);
+  // const [exerciseIndex, setExerciseIndex] = React.useState(Number(localStorage.getItem("count")) || 0);
+  // const [endOfSeries, setEndOfSeries] = useState(false);
+  // const [disabled, setDisabled] = React.useState(false);
+  const [count, setCount] = React.useState(
+    typeof window !== "undefined"
+      ? Number(localStorage?.getItem("count"))
+      : 0 || 0
+  );
+  // const [countdown, setCountdown] = React.useState(() => {
+  //   if (
+  //     typeof window !== "undefined" &&
+  //     Number(localStorage.getItem("countdown")) > 0
+  //   ) {
+  //     return Number(localStorage.getItem("countdown"));
+  //   }
+  //   return NUMBEROFREPETITION;
+  // });
+
+  // const [exerciseIndex, setExerciseIndex] = React.useState(
+  //   typeof window !== "undefined"
+  //     ? Number(localStorage.getItem("exerciseIndex"))
+  //     : 0 || 0
+  // );
   const [endOfSeries, setEndOfSeries] = useState(false);
   const [disabled, setDisabled] = React.useState(false);
+  const [serie, setSerie] = React.useState(() => {
+    if (
+      typeof window !== "undefined" &&
+      Number(localStorage.getItem("serie")) > 0
+    ) {
+      return Number(localStorage.getItem("serie"));
+    }
+    return 1;
+  });
+  console.log(endOfSeries);
+  //console.log(localStorage.getItem("endOfSeries"));
 
-  const [serie, setSerie] = React.useState(1);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("count", String(count));
+  }, [count]);
+  useEffect(() => {
+    localStorage.setItem("serie", String(serie));
+  }, [serie]);
+
+  let countdown = NUMBEROFREPETITION - (count % NUMBEROFREPETITION);
+  let exerciseIndex = Math.floor(
+    Math.floor(count % (typeOfExercises.length * NUMBEROFREPETITION)) /
+      NUMBEROFREPETITION
+  );
+  console.log("exerciseIndex", exerciseIndex);
 
   const onClickCounter = () => {
     const prevCount = count;
@@ -32,24 +81,11 @@ const Counter = ({ children, timerZero }: Props) => {
       prevCount ===
       NUMBEROFREPETITION * typeOfExercises.length * seriesList.length - 1
     ) {
+      localStorage.clear();
       setEndOfSeries(true);
       return;
     }
     setCount(count + 1);
-    setCountdown((prev) => {
-      let fromZeroTo10 = (prevCount + 1) % NUMBEROFREPETITION;
-      fromZeroTo10 = NUMBEROFREPETITION - fromZeroTo10;
-      return fromZeroTo10;
-    });
-    setExerciseIndex((prev) => {
-      //let currentIndex = prev;
-      const newIndex = Math.floor(
-        ((prevCount + 1) % (typeOfExercises.length * NUMBEROFREPETITION)) /
-          NUMBEROFREPETITION
-      );
-      //console.log("newIndex", newIndex);
-      return newIndex;
-    });
 
     if (serie === 3 && exerciseIndex === 2 && countdown === 1) {
     } else if (countdown === 1 && exerciseIndex === 2) {
@@ -61,18 +97,10 @@ const Counter = ({ children, timerZero }: Props) => {
     }, DISABLED_TIME);
   };
 
-  // const resetStates = () => {
-  //   setCount(0);
-  //   setCountdown(NUMBEROFREPETITION);
-  //   //setExerciseIndex(0);
-  //   setEndOfSeries(false);
-  //   setSerie(1);
-  //   //setRemainingTime(TIMER_DURATION);
-  // };
-
   console.log("End of series", endOfSeries);
   //   const [rotate, setRotate] = React.useState(0);
 
+  if (!mounted) return null;
   return (
     <>
       <div className="p-3 text-2xl ">

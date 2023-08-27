@@ -17,10 +17,10 @@ const MainCounter = (props: Props) => {
   const [open, setOpen] = React.useState(false);
   return (
     <div className="flex items-center  min-h-screen flex-col w-full bg-slate-30 relative">
-      <Counter key={`counter ${reset}`} timerZero={timerZero} />
+      <Counter key={`Counter${Date.now()}-${reset}`} timerZero={timerZero} />
 
       <TimeCounter
-        key={`timer ${reset}`}
+        key={`TimeCounter${Date.now()}-${reset}`}
         onTimerZero={setTimerZero}
         timerDuration={TIMER_DURATION}
       />
@@ -29,6 +29,7 @@ const MainCounter = (props: Props) => {
         onReset={() => {
           setOpen(false);
           setReset(reset + 1);
+          localStorage.clear();
           setTimerZero(false);
         }}
         onClose={() => setOpen(false)}
